@@ -56,6 +56,8 @@ public class FileManager implements FileManagerConfig {
 
         String fileAbsolutePath = PROTOCOL
                 + TRACKER_NGNIX_ADDR
+                + ":"
+                + PROT
                 //+ trackerServer.getInetSocketAddress().getHostName()
                 //+ SEPARATOR + TRACKER_NGNIX_PORT 
                 + SEPARATOR + groupName
