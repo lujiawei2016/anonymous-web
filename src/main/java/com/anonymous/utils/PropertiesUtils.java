@@ -28,9 +28,4 @@ public class PropertiesUtils {
 		}
 		return null;
 	}
-	
-	public static void main(String[] args) throws Exception {
-		String value = PropertiesUtils.getValue("login", "/redis-key.properties");
-		System.out.println(value);
-	}
 }
