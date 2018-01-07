@@ -1,11 +1,16 @@
 package com.anonymous.message.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.anonymous.message.service.MessageService;
+
+import net.sf.json.JSONObject;
 
 /**
  * 
@@ -17,6 +22,8 @@ import com.anonymous.message.service.MessageService;
 @RequestMapping(value="/message")
 public class MessageController {
 	
+	private static final Logger logger = Logger.getLogger(MessageController.class);
+	
 	@Autowired
 	private MessageService messageService;
 
@@ -25,13 +32,14 @@ public class MessageController {
 	 * @param phone
 	 * @return
 	 */
-	@RequestMapping(value="/sendLoginMsg")
+	@RequestMapping(value="/sendLoginMsg/phone/{phone}",method=RequestMethod.GET)
 	@ResponseBody
-	public Object sendLoginMsg(String phone){
+	public Object sendLoginMsg(@PathVariable String phone){
 		try {
-			Object result = messageService.sendLoginMsg(phone);
+			Object result = JSONObject.fromObject(messageService.sendLoginMsg(phone));
 			return result;
 		} catch (Exception e) {
+			logger.error("发送登录短信异常，异常信息为："+e.getMessage());
 			e.printStackTrace();
 		}
 		return null;
