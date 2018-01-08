@@ -26,12 +26,15 @@ CREATE TABLE `an_anonym` (
   `userName` varchar(100) DEFAULT NULL COMMENT '账号',
   `password` varchar(100) DEFAULT NULL COMMENT '密码',
   `headerImg` varchar(255) DEFAULT NULL COMMENT '头像',
-  `lock` int(5) DEFAULT NULL COMMENT '是否锁定，1-未锁定，0-已锁定',
+  `phone` varchar(50) DEFAULT NULL COMMENT '手机号码',
+  `lock` int(5) DEFAULT '1' COMMENT '是否锁定，1-未锁定，0-已锁定',
+  `deviceId` varchar(255) DEFAULT NULL COMMENT '设备唯一标识',
   `lockReason` varchar(255) DEFAULT NULL COMMENT '锁定理由',
-  `delFlag` int(5) DEFAULT NULL COMMENT '删除标识，1-未删除，0-已删除',
+  `delFlag` int(5) DEFAULT '1' COMMENT '删除标识，1-未删除，0-已删除',
   `createTime` datetime DEFAULT NULL COMMENT '创建时间',
   `updateTime` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`anonymId`)
+  PRIMARY KEY (`anonymId`),
+  KEY `anonym_phone` (`phone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `an_anonym` */
