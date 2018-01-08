@@ -11,7 +11,7 @@
     <dubbo:application name="dubbo-consumer"></dubbo:application>
 
     <!-- 使用zookeeper注册中心暴露服务地址 -->
-    <dubbo:registry protocol="zookeeper" address="192.168.16.128:2181,192.168.16.129:2181,192.168.16.130:2181"></dubbo:registry>
+    <dubbo:registry protocol="zookeeper" address="${zookAddr}"></dubbo:registry>
     
     <dubbo:reference id="userService" interface="com.anonymous.test.service.IUserService" timeout="1200000"></dubbo:reference>
     <dubbo:reference id="consumer_messageService" interface="com.anonymous.message.service.MessageService" timeout="1200000"></dubbo:reference>
