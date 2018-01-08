@@ -53,6 +53,7 @@ public class MessageController {
 	 * @return
 	 */
 	@RequestMapping(value="/quickLogin/phone/{phone}/code/{code}/deviceId/{deviceId}")
+	@ResponseBody
 	public Object quickLogin(@PathVariable String phone,@PathVariable String code,@PathVariable String deviceId){
 		try {
 			Object result = JSONObject.fromObject(messageService.quickLogin(phone, code, deviceId));
