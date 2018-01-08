@@ -1,6 +1,6 @@
 /*
-SQLyog v10.2 
-MySQL - 5.7.12-log : Database - anonymous
+SQLyog Ultimate v11.24 (32 bit)
+MySQL - 5.5.20 : Database - anonymous
 *********************************************************************
 */
 
@@ -27,7 +27,7 @@ CREATE TABLE `an_anonym` (
   `password` varchar(100) DEFAULT NULL COMMENT '密码',
   `headerImg` varchar(255) DEFAULT NULL COMMENT '头像',
   `phone` varchar(50) DEFAULT NULL COMMENT '手机号码',
-  `lock` int(5) DEFAULT '1' COMMENT '是否锁定，1-未锁定，0-已锁定',
+  `isLock` int(5) DEFAULT '1' COMMENT '是否锁定，1-未锁定，0-已锁定',
   `deviceId` varchar(255) DEFAULT NULL COMMENT '设备唯一标识',
   `lockReason` varchar(255) DEFAULT NULL COMMENT '锁定理由',
   `delFlag` int(5) DEFAULT '1' COMMENT '删除标识，1-未删除，0-已删除',
@@ -38,6 +38,8 @@ CREATE TABLE `an_anonym` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `an_anonym` */
+
+insert  into `an_anonym`(`anonymId`,`nickName`,`userName`,`password`,`headerImg`,`phone`,`isLock`,`deviceId`,`lockReason`,`delFlag`,`createTime`,`updateTime`) values ('b5ae7b0d-a7df-4a9d-86c5-657b355d8f39','张三','18320172397',NULL,'','18320172397',1,'864664034884823',NULL,1,'2018-01-08 22:46:30','2018-01-08 22:46:30');
 
 /*Table structure for table `an_anonymreport` */
 
@@ -66,7 +68,7 @@ CREATE TABLE `an_card` (
   `cardId` varchar(100) NOT NULL COMMENT '主键',
   `cardContent` longtext NOT NULL COMMENT '卡片内容',
   `cardImg` varchar(255) DEFAULT NULL COMMENT '卡片图片',
-  `lock` int(5) DEFAULT NULL COMMENT '是否锁定，1-未锁定，0-已锁定',
+  `isLock` int(5) DEFAULT NULL COMMENT '是否锁定，1-未锁定，0-已锁定',
   `lockReason` longtext COMMENT '锁定理由',
   `createTime` datetime DEFAULT NULL COMMENT '创建时间',
   `updateTime` datetime DEFAULT NULL COMMENT '更新时间',
@@ -166,7 +168,7 @@ CREATE TABLE `an_story` (
   `storyId` varchar(100) NOT NULL COMMENT '主键',
   `storyTitle` varchar(200) DEFAULT NULL COMMENT '标题',
   `storyContent` longtext COMMENT '内容',
-  `lock` int(5) DEFAULT NULL COMMENT '是否锁定，1-未锁定，0-已锁定',
+  `isLock` int(5) DEFAULT NULL COMMENT '是否锁定，1-未锁定，0-已锁定',
   `lockReason` longtext COMMENT '锁定理由',
   `updateTime` datetime DEFAULT NULL COMMENT '更新时间',
   `createTime` datetime DEFAULT NULL COMMENT '创建时间',
