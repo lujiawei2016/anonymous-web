@@ -1,11 +1,18 @@
 package com.anonymous.card.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.anonymous.card.service.CardService;
+import com.anonymous.utils.FileUtils;
+
+import net.sf.json.JSONObject;
 
 /**
  * 卡片controller
@@ -16,18 +23,30 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping(value="/card")
 public class CardController {
+	
+	private static Logger logger = Logger.getLogger(CardController.class);
+	
+	@Autowired
+	private CardService cardService;
 
 	/**
-	 * 发布
-	 * @param content
+	 * 发布卡片
+	 * @param anonymId
+	 * @param cardContent
+	 * @param file
 	 * @return
 	 */
-	@RequestMapping(value="/release")
+	@RequestMapping(value="/release",method=RequestMethod.POST)
 	@ResponseBody
-	public Object release(String cardContent){
-		System.out.println(cardContent);
-		Map<String, Object> map = new HashMap<>();
-		map.put("name", "lujiawei");
-		return map;
+	public Object release(String anonymId,String cardContent,@RequestParam MultipartFile file){
+		try {
+			String imgPath = FileUtils.upload(file);
+			Object result = JSONObject.fromObject(cardService.release(anonymId, cardContent, imgPath));
+			return result;
+		} catch (Exception e) {
+			logger.error("发布卡片异常，异常信息为："+e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
