@@ -40,6 +40,7 @@ public class MessageController {
 			return result;
 		} catch (Exception e) {
 			logger.error("发送登录短信异常，异常信息为："+e.getMessage());
+			
 			e.printStackTrace();
 		}
 		return null;
@@ -52,7 +53,7 @@ public class MessageController {
 	 * @param deviceId
 	 * @return
 	 */
-	@RequestMapping(value="/quickLogin/phone/{phone}/code/{code}/deviceId/{deviceId}")
+	@RequestMapping(value="/quickLogin/phone/{phone}/code/{code}/deviceId/{deviceId}",method=RequestMethod.GET)
 	@ResponseBody
 	public Object quickLogin(@PathVariable String phone,@PathVariable String code,@PathVariable String deviceId){
 		try {

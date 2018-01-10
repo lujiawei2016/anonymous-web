@@ -17,10 +17,13 @@
         <property name="locations">
             <list>
                 <value>classpath:dubbo.properties</value>
+                <value>classpath:redis-config.properties</value> 
+                <value>classpath:redis-key.properties</value>
             </list>
         </property>
     </bean>
     
+    <import resource="spring-redis.xml"/>
     <import resource="dubbo-consumer.xml"/>  
   
 </beans>  

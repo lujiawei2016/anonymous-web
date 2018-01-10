@@ -45,6 +45,13 @@
         <property name="maxUploadSize" value="10485760000" />    
         <!-- 内存中的最大值 -->  
         <property name="maxInMemorySize" value="40960" />    
-    </bean>   
+    </bean>
+    
+    <mvc:interceptors>
+    	<mvc:interceptor>
+    		<mvc:mapping path="/**"/>
+    		<bean class="com.anonymous.interceptor.RepeatSubmit"></bean>
+    	</mvc:interceptor>
+    </mvc:interceptors>
   
 </beans>  
