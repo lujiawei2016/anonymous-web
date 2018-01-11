@@ -3,6 +3,7 @@ package com.anonymous.card.controller;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,6 +48,16 @@ public class CardController {
 			logger.error("发布卡片异常，异常信息为："+e.getMessage());
 			e.printStackTrace();
 		}
+		return null;
+	}
+	
+	/**
+	 * 查出主页最新卡片信息
+	 * @param anonymId
+	 * @return
+	 */
+	@RequestMapping(value="/searchNewCard/anonymId/{anonymId}",method=RequestMethod.POST)
+	public Object searchNewCard(@PathVariable String anonymId){
 		return null;
 	}
 }
