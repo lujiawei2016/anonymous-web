@@ -57,7 +57,15 @@ public class CardController {
 	 * @return
 	 */
 	@RequestMapping(value="/searchNewCard/anonymId/{anonymId}",method=RequestMethod.POST)
+	@ResponseBody
 	public Object searchNewCard(@PathVariable String anonymId){
+		try {
+			Object result = JSONObject.fromObject(cardService.searchNewCard(anonymId));
+			return result;
+		} catch (Exception e) {
+			logger.error("查出主页最新卡片信息");
+			e.printStackTrace();
+		}
 		return null;
 	}
 }
