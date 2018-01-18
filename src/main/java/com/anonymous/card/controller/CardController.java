@@ -1,7 +1,19 @@
 package com.anonymous.card.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.net.InetAddress;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.catalina.tribes.group.interceptors.ThroughputInterceptorMBean;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,9 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.dubbo.common.utils.StringUtils;
 import com.anonymous.card.service.CardService;
 import com.anonymous.utils.FileUtils;
 
+import net.coobird.thumbnailator.Thumbnails;
 import net.sf.json.JSONObject;
 
 /**
@@ -39,11 +53,55 @@ public class CardController {
 	 */
 	@RequestMapping(value="/release",method=RequestMethod.POST)
 	@ResponseBody
-	public Object release(String anonymId,String cardContent,@RequestParam MultipartFile file){
+	public Object release(String anonymId,String cardContent,@RequestParam MultipartFile file,HttpServletRequest request,HttpServletResponse response){
 		try {
-			String imgPath = FileUtils.upload(file);
-			Object result = JSONObject.fromObject(cardService.release(anonymId, cardContent, imgPath));
-			return result;
+			
+			response.setCharacterEncoding("utf-8");
+	        request.setCharacterEncoding("utf-8");
+	        
+	        String turePicName = null;//图片名
+	        String picName = null;//最终名字
+	        String picUrl = null;//图片路径
+	        
+	        String realPath = request.getSession().getServletContext().getRealPath(""+File.separator+"uploadImage");
+	        if(!(file.isEmpty())){
+	        	
+	        	String ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
+	        	if(!StringUtils.isBlank(ext) && ("jpg".equals(ext)) || "jpeg".equals(ext) || "png".equals(ext) || "bmp".equals(ext)){
+	        		//获取图片属性并保存
+	                picName = UUID.randomUUID().toString();
+	                picUrl = "uploadImage/"+picName;
+	                
+	                File targetFile = new File(realPath,picName+"."+ext);
+	                file.transferTo(targetFile);
+	                
+	                if("png".equals(ext)){
+	                	Thumbnails.of(realPath+File.separator+picName+"."+ext).outputFormat("jpg").scale(1f).outputQuality(0.25f).toFile(realPath+File.separator+picName+"_fuben.jpg");
+	                }else{
+	                	Thumbnails.of(realPath+File.separator+picName+"."+ext).scale(1f).outputQuality(0.25f).toFile(realPath+File.separator+picName+"_fuben.jpg");
+	                }
+	                
+	                File fastdfsFile = new File(realPath,picName+"_fuben.jpg");
+	                
+	                FileInputStream inputStream = new FileInputStream(fastdfsFile);
+	                MultipartFile multipartFile = new MockMultipartFile(picName+"_fuben.jpg", inputStream);
+	                
+	                String imgPath = FileUtils.upload(multipartFile);
+	    			Object result = JSONObject.fromObject(cardService.release(anonymId, cardContent, imgPath));
+	    			
+	    			logger.info("文件上传成功");
+	                
+	    			return result;
+	        	}else{
+	        		Map<String, Object> resultMap = new HashMap<>();
+	        		resultMap.put("result", "00");
+	        		resultMap.put("msg", "图片格式错误");
+	        		Object result = JSONObject.fromObject(resultMap);
+	        		return result;
+	        	}
+                
+            }
+			
 		} catch (Exception e) {
 			logger.error("发布卡片异常，异常信息为："+e.getMessage());
 			e.printStackTrace();
