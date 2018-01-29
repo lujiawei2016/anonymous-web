@@ -2,7 +2,6 @@ package com.anonymous.card.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -10,7 +9,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.catalina.tribes.group.interceptors.ThroughputInterceptorMBean;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
@@ -23,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
+import com.anonymous.card.service.CardCommentService;
 import com.anonymous.card.service.CardService;
 import com.anonymous.utils.FileUtils;
 
@@ -43,6 +42,30 @@ public class CardController {
 	
 	@Autowired
 	private CardService cardService;
+	
+	@Autowired
+	private CardCommentService cardCommentService;
+	
+	/**
+	 * 保存评论
+	 * @param anonymId
+	 * @param cardId
+	 * @param cardCommentContent
+	 * @param carCommentReplyId
+	 * @return
+	 */
+	@RequestMapping(value="/saveCardComment",method=RequestMethod.POST)
+	@ResponseBody
+	public Object saveCardComment(String anonymId,String cardId,
+			String cardCommentContent,String carCommentReplyId){
+		try {
+			Object result = JSONObject.fromObject(cardCommentService.saveCardComment(anonymId, cardId, cardCommentContent, carCommentReplyId));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	/**
 	 * 发布卡片
