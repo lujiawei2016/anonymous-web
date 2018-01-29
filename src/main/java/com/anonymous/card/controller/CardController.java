@@ -47,6 +47,24 @@ public class CardController {
 	private CardCommentService cardCommentService;
 	
 	/**
+	 * 获取卡片评论
+	 * @param anonymId
+	 * @param cardId
+	 * @return
+	 */
+	@RequestMapping(value="/getCardComment/{offset}/{length}")
+	@ResponseBody
+	public Object getCardComment(String anonymId, String cardId,@PathVariable String offset,@PathVariable String length){
+		try {
+			Object result = JSONObject.fromObject(cardCommentService.getCardComment(anonymId, cardId,offset,length));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
 	 * 保存评论
 	 * @param anonymId
 	 * @param cardId
