@@ -24,6 +24,7 @@
     </bean>
     
     <import resource="spring-redis.xml"/>
-    <import resource="dubbo-consumer.xml"/>  
+    <import resource="dubbo-consumer.xml"/>
+    <import resource="spring-activemq.xml"/>
   
 </beans>  
