@@ -22,9 +22,9 @@
                         
                         
 	<amq:connectionFactory id="amqConnectionFactory"
-                           brokerURL="failover:(tcp://192.168.11.129:61616,tcp://192.168.11.130:6161,tcp://192.168.11.131:61616)"
-                           userName="admin"
-                           password="admin" />
+                           brokerURL="${activemq.brokerURL}"
+                           userName="${activemq.userName}"
+                           password="${activemq.password}" />
  
     <!-- 配置JMS连接工长 -->
     <bean id="myAmqConnectionFactory"
