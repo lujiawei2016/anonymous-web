@@ -46,23 +46,4 @@ public class MessageController {
 		return null;
 	}
 	
-	/**
-	 * 快捷登陆
-	 * @param phone
-	 * @param code
-	 * @param deviceId
-	 * @return
-	 */
-	@RequestMapping(value="/quickLogin/phone/{phone}/code/{code}/deviceId/{deviceId}",method=RequestMethod.GET)
-	@ResponseBody
-	public Object quickLogin(@PathVariable String phone,@PathVariable String code,@PathVariable String deviceId){
-		try {
-			Object result = JSONObject.fromObject(messageService.quickLogin(phone, code, deviceId));
-			return result;
-		} catch (Exception e) {
-			logger.info("快捷登陆异常，异常信息为："+e.getMessage());
-			e.printStackTrace();
-		}
-		return null;
-	}
 }

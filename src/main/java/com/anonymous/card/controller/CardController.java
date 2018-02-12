@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
+import com.anonymous.card.service.CardCommentFabulousService;
 import com.anonymous.card.service.CardCommentService;
 import com.anonymous.card.service.CardService;
 import com.anonymous.utils.FileUtils;
@@ -45,6 +46,9 @@ public class CardController {
 	
 	@Autowired
 	private CardCommentService cardCommentService;
+	
+	@Autowired
+	private CardCommentFabulousService cardCommentFabulousService;
 	
 	/**
 	 * 获取卡片评论
@@ -163,6 +167,24 @@ public class CardController {
 			return result;
 		} catch (Exception e) {
 			logger.error("查出主页最新卡片信息");
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 评论点赞
+	 * @param anonymId
+	 * @param cardCommentId
+	 * @return
+	 */
+	@RequestMapping(value="/fabulous/{anonymId}/{cardCommentId}")
+	@ResponseBody
+	public Object fabulous(@PathVariable String anonymId,@PathVariable String cardCommentId){
+		try {
+			Object result = JSONObject.fromObject(cardCommentFabulousService.fabulous(anonymId, cardCommentId));
+			return result;
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;

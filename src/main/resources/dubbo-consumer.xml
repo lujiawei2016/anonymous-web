@@ -18,6 +18,8 @@
     <dubbo:reference id="consumer_messageService" interface="com.anonymous.message.service.MessageService" timeout="1200000"></dubbo:reference>
     <dubbo:reference id="consumer_card" interface="com.anonymous.card.service.CardService" timeout="1200000"></dubbo:reference>
     <dubbo:reference id="consumer_cardComment" interface="com.anonymous.card.service.CardCommentService" timeout="1200000"></dubbo:reference>
+    <dubbo:reference id="consumer_cardCommentFabulous" interface="com.anonymous.card.service.CardCommentFabulousService" timeout="1200000"></dubbo:reference>
+    <dubbo:reference id="consumer_login" interface="com.anonymous.login.service.LoginService" timeout="1200000"></dubbo:reference>
     
     <dubbo:reference id="consumer_mq_consumer" interface="com.anonymous.activemq.ConsumerService" timeout="1200000"></dubbo:reference>
     <dubbo:reference id="consumer_mq_producer" interface="com.anonymous.activemq.ProducerService" timeout="1200000"></dubbo:reference>
