@@ -9,6 +9,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
@@ -23,7 +24,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.anonymous.card.service.CardCommentFabulousService;
 import com.anonymous.card.service.CardCommentService;
+import com.anonymous.card.service.CardFabulousService;
 import com.anonymous.card.service.CardService;
+import com.anonymous.custom.annotation.IdentityCheck;
 import com.anonymous.utils.FileUtils;
 
 import net.coobird.thumbnailator.Thumbnails;
@@ -50,6 +53,9 @@ public class CardController {
 	@Autowired
 	private CardCommentFabulousService cardCommentFabulousService;
 	
+	@Autowired
+	private CardFabulousService cardFabulousService;
+	
 	/**
 	 * 获取卡片评论
 	 * @param anonymId
@@ -58,6 +64,7 @@ public class CardController {
 	 */
 	@RequestMapping(value="/getCardComment/{offset}/{length}")
 	@ResponseBody
+	@IdentityCheck(check=false)
 	public Object getCardComment(String anonymId, String cardId,@PathVariable String offset,@PathVariable String length){
 		try {
 			Object result = JSONObject.fromObject(cardCommentService.getCardComment(anonymId, cardId,offset,length));
@@ -78,6 +85,7 @@ public class CardController {
 	 */
 	@RequestMapping(value="/saveCardComment",method=RequestMethod.POST)
 	@ResponseBody
+	@IdentityCheck
 	public Object saveCardComment(String anonymId,String cardId,
 			String cardCommentContent,String carCommentReplyId){
 		try {
@@ -98,6 +106,7 @@ public class CardController {
 	 */
 	@RequestMapping(value="/release",method=RequestMethod.POST)
 	@ResponseBody
+	@IdentityCheck
 	public Object release(String anonymId,String cardContent,@RequestParam MultipartFile file,HttpServletRequest request,HttpServletResponse response){
 		try {
 			
@@ -161,12 +170,13 @@ public class CardController {
 	 */
 	@RequestMapping(value="/searchNewCard/anonymId/{anonymId}",method=RequestMethod.POST)
 	@ResponseBody
+	@IdentityCheck(check=false)
 	public Object searchNewCard(@PathVariable String anonymId){
 		try {
 			Object result = JSONObject.fromObject(cardService.searchNewCard(anonymId));
 			return result;
 		} catch (Exception e) {
-			logger.error("查出主页最新卡片信息");
+			logger.error("查出主页最新卡片信息异常");
 			e.printStackTrace();
 		}
 		return null;
@@ -178,11 +188,31 @@ public class CardController {
 	 * @param cardCommentId
 	 * @return
 	 */
-	@RequestMapping(value="/fabulous/{anonymId}/{cardCommentId}")
+	@RequestMapping(value="/commentFabulous/{anonymId}/{cardCommentId}")
 	@ResponseBody
-	public Object fabulous(@PathVariable String anonymId,@PathVariable String cardCommentId){
+	@IdentityCheck
+	public Object commentFabulous(@PathVariable String anonymId,@PathVariable String cardCommentId){
 		try {
 			Object result = JSONObject.fromObject(cardCommentFabulousService.fabulous(anonymId, cardCommentId));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 点赞卡片
+	 * @param anonymId
+	 * @param cardId
+	 * @return
+	 */
+	@RequestMapping(value="/cardFabulous/{anonymId}/{cardId}")
+	@ResponseBody
+	@IdentityCheck
+	public Object cardFabulous(@PathVariable String anonymId,@PathVariable String cardId){
+		try {
+			Object result = JSONObject.fromObject(cardFabulousService.fabulous(anonymId, cardId));
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();

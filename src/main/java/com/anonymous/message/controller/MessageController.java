@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.anonymous.custom.annotation.IdentityCheck;
 import com.anonymous.message.service.MessageService;
 
 import net.sf.json.JSONObject;
@@ -34,6 +35,7 @@ public class MessageController {
 	 */
 	@RequestMapping(value="/sendLoginMsg/phone/{phone}",method=RequestMethod.GET)
 	@ResponseBody
+	@IdentityCheck(check=false)
 	public Object sendLoginMsg(@PathVariable String phone){
 		try {
 			Object result = JSONObject.fromObject(messageService.sendLoginMsg(phone));

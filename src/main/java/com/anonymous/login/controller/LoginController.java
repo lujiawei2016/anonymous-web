@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.anonymous.custom.annotation.IdentityCheck;
 import com.anonymous.login.service.LoginService;
 
 import net.sf.json.JSONObject;
@@ -36,6 +37,7 @@ public class LoginController {
 	 */
 	@RequestMapping(value="/quickLogin/phone/{phone}/code/{code}/deviceId/{deviceId}",method=RequestMethod.GET)
 	@ResponseBody
+	@IdentityCheck(check=false)
 	public Object quickLogin(@PathVariable String phone,@PathVariable String code,@PathVariable String deviceId){
 		try {
 			Object result = JSONObject.fromObject(loginService.quickLogin(phone, code, deviceId));

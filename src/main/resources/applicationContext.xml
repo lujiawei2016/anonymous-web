@@ -19,13 +19,11 @@
                 <value>classpath:dubbo.properties</value>
                 <value>classpath:redis-config.properties</value> 
                 <value>classpath:redis-key.properties</value>
-                <value>classpath:activemq.properties</value>
             </list>
         </property>
     </bean>
     
     <import resource="spring-redis.xml"/>
     <import resource="dubbo-consumer.xml"/>
-    <import resource="spring-activemq.xml"/>
   
 </beans>  
