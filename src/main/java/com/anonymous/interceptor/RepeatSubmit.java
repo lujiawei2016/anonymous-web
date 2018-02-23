@@ -37,7 +37,7 @@ public class RepeatSubmit implements HandlerInterceptor {
 			String tokenValue = redisUtils.get(token);
 			if(StringUtils.isBlank(tokenValue)){
 				//redis中token值为空，非表单重复提交
-				redisUtils.put(token, token, 1, TimeUnit.HOURS);
+				redisUtils.put(token, token, 1, TimeUnit.MINUTES);
 				redisUtils.exec();
 				return true;
 			}else{

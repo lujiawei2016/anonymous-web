@@ -9,7 +9,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
+import com.anonymous.card.service.CardCollectionService;
 import com.anonymous.card.service.CardCommentFabulousService;
 import com.anonymous.card.service.CardCommentService;
 import com.anonymous.card.service.CardFabulousService;
@@ -55,6 +55,9 @@ public class CardController {
 	
 	@Autowired
 	private CardFabulousService cardFabulousService;
+	
+	@Autowired
+	private CardCollectionService cardCollectionService;
 	
 	/**
 	 * 获取卡片评论
@@ -213,6 +216,25 @@ public class CardController {
 	public Object cardFabulous(@PathVariable String anonymId,@PathVariable String cardId){
 		try {
 			Object result = JSONObject.fromObject(cardFabulousService.fabulous(anonymId, cardId));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 收藏卡片
+	 * @param anonymId
+	 * @param cardId
+	 * @return
+	 */
+	@RequestMapping(value="/cardCollection/{anonymId}/{cardId}")
+	@ResponseBody
+	@IdentityCheck
+	public Object cardCollection(@PathVariable String anonymId,@PathVariable String cardId){
+		try {
+			Object result = JSONObject.fromObject(cardCollectionService.collection(anonymId, cardId));
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
