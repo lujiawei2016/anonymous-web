@@ -10,9 +10,9 @@ public interface FileManagerConfig extends Serializable {
 
     public static final String SEPARATOR = "/";
     
-    public static final String PROT = "9999";
+    public static final String PROT = "80";
 
-    public static final String TRACKER_NGNIX_ADDR = "192.168.11.129";
+    public static final String TRACKER_NGNIX_ADDR = "fastdfs.free.ngrok.cc";
     
     public static final String TRACKER_NGNIX_PORT = "";
 

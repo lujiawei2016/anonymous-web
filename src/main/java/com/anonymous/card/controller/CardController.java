@@ -116,9 +116,7 @@ public class CardController {
 			response.setCharacterEncoding("utf-8");
 	        request.setCharacterEncoding("utf-8");
 	        
-	        String turePicName = null;//图片名
 	        String picName = null;//最终名字
-	        String picUrl = null;//图片路径
 	        
 	        String realPath = request.getSession().getServletContext().getRealPath(""+File.separator+"uploadImage");
 	        if(!(file.isEmpty())){
@@ -127,7 +125,6 @@ public class CardController {
 	        	if(!StringUtils.isBlank(ext) && ("jpg".equals(ext)) || "jpeg".equals(ext) || "png".equals(ext) || "bmp".equals(ext)){
 	        		//获取图片属性并保存
 	                picName = UUID.randomUUID().toString();
-	                picUrl = "uploadImage/"+picName;
 	                
 	                File targetFile = new File(realPath,picName+"."+ext);
 	                file.transferTo(targetFile);
