@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.anonymous.custom.annotation.IdentityCheck;
+import com.anonymous.story.service.StoryService;
 import com.anonymous.utils.FileUtils;
 
 import net.coobird.thumbnailator.Thumbnails;
@@ -38,6 +40,9 @@ public class StoryController {
 	
 	private static final Logger logger = Logger.getLogger(StoryController.class);
 	
+	@Autowired
+	private StoryService storyService;
+	
 	/**
 	 * 发布故事
 	 * @param anonymId
@@ -48,11 +53,13 @@ public class StoryController {
 	@ResponseBody
 	@IdentityCheck
 	public Object release(@PathVariable String anonymId,String story_title,String story_article){
-		System.out.println(anonymId);
-		System.out.println(story_article);
-		Map<String, Object> map = new HashMap<>();
-		map.put("abc", "123");
-		return map;
+		try {
+			Object result = JSONObject.fromObject(storyService.release(anonymId, story_title, story_article));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	/**
