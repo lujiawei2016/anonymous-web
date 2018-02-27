@@ -44,17 +44,36 @@ public class StoryController {
 	private StoryService storyService;
 	
 	/**
+	 * 查找最新故事
+	 * @return
+	 */
+	@RequestMapping(value="/searchNewStory",method=RequestMethod.POST)
+	@ResponseBody
+	@IdentityCheck(check=false)
+	public Object searchNewStory(){
+		try {
+			Object result = JSONObject.fromObject(storyService.searchNewStory());
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
 	 * 发布故事
 	 * @param anonymId
+	 * @param story_title
 	 * @param story_article
+	 * @param story_article_summary
 	 * @return
 	 */
 	@RequestMapping(value="/release/{anonymId}",method=RequestMethod.POST)
 	@ResponseBody
 	@IdentityCheck
-	public Object release(@PathVariable String anonymId,String story_title,String story_article){
+	public Object release(@PathVariable String anonymId,String story_title,String story_article,String story_article_summary){
 		try {
-			Object result = JSONObject.fromObject(storyService.release(anonymId, story_title, story_article));
+			Object result = JSONObject.fromObject(storyService.release(anonymId, story_title, story_article, story_article_summary));
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -122,4 +141,5 @@ public class StoryController {
 		
 		return null;
 	}
+	
 }

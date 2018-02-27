@@ -12,7 +12,7 @@ public interface FileManagerConfig extends Serializable {
     
     public static final String PROT = "80";
 
-    public static final String TRACKER_NGNIX_ADDR = "fastdfs.free.ngrok.cc";
+    public static final String TRACKER_NGNIX_ADDR = "0gmg8ue.hn3.mofasuidao.cn";
     
     public static final String TRACKER_NGNIX_PORT = "";
 
