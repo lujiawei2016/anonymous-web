@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.anonymous.custom.annotation.IdentityCheck;
+import com.anonymous.story.service.StoryFabulousService;
 import com.anonymous.story.service.StoryService;
 import com.anonymous.utils.FileUtils;
 
@@ -42,6 +43,9 @@ public class StoryController {
 	
 	@Autowired
 	private StoryService storyService;
+	
+	@Autowired
+	private StoryFabulousService storyFabulousService;
 	
 	/**
 	 * 查找最新故事
@@ -106,11 +110,16 @@ public class StoryController {
 	 * @param storyId
 	 * @return
 	 */
-	@RequestMapping(value="/storyFabulous/{anonymId}/{storyId}")
+	@RequestMapping(value="/storyFabulous")
 	@ResponseBody
 	@IdentityCheck
-	public Object storyFabulous(@PathVariable String anonymId,@PathVariable String storyId){
-		
+	public Object storyFabulous(String anonymId,String storyId){
+		try {
+			Object result = JSONObject.fromObject(storyFabulousService.fabulous(anonymId, storyId));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
