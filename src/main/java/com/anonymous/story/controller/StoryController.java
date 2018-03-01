@@ -82,6 +82,39 @@ public class StoryController {
 	}
 
 	/**
+	 * 获取故事
+	 * @param storyId
+	 * @param anonymId
+	 * @return
+	 */
+	@RequestMapping(value="/getStory/{storyId}")
+	@ResponseBody
+	@IdentityCheck(check=false)
+	public Object getStory(@PathVariable String storyId,String anonymId){
+		try {
+			Object result = JSONObject.fromObject(storyService.findStoryById(storyId,anonymId));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * 点赞故事
+	 * @param anonymId
+	 * @param storyId
+	 * @return
+	 */
+	@RequestMapping(value="/storyFabulous/{anonymId}/{storyId}")
+	@ResponseBody
+	@IdentityCheck
+	public Object storyFabulous(@PathVariable String anonymId,@PathVariable String storyId){
+		
+		return null;
+	}
+
+	/**
 	 * 故事图片上传
 	 * @param file
 	 * @param request
