@@ -22,6 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.anonymous.custom.annotation.IdentityCheck;
+import com.anonymous.story.service.StoryCollectionService;
+import com.anonymous.story.service.StoryCommentService;
 import com.anonymous.story.service.StoryFabulousService;
 import com.anonymous.story.service.StoryService;
 import com.anonymous.utils.FileUtils;
@@ -46,6 +48,12 @@ public class StoryController {
 	
 	@Autowired
 	private StoryFabulousService storyFabulousService;
+	
+	@Autowired
+	private StoryCollectionService storyCollectionService;
+	
+	@Autowired
+	private StoryCommentService storyCommentService;
 	
 	/**
 	 * 查找最新故事
@@ -91,7 +99,7 @@ public class StoryController {
 	 * @param anonymId
 	 * @return
 	 */
-	@RequestMapping(value="/getStory/{storyId}")
+	@RequestMapping(value="/getStory/{storyId}",method=RequestMethod.POST)
 	@ResponseBody
 	@IdentityCheck(check=false)
 	public Object getStory(@PathVariable String storyId,String anonymId){
@@ -110,12 +118,52 @@ public class StoryController {
 	 * @param storyId
 	 * @return
 	 */
-	@RequestMapping(value="/storyFabulous")
+	@RequestMapping(value="/storyFabulous",method=RequestMethod.POST)
 	@ResponseBody
 	@IdentityCheck
 	public Object storyFabulous(String anonymId,String storyId){
 		try {
 			Object result = JSONObject.fromObject(storyFabulousService.fabulous(anonymId, storyId));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 故事收藏
+	 * @param anonymId
+	 * @param storyId
+	 * @return
+	 */
+	@RequestMapping(value="/collection",method=RequestMethod.POST)
+	@ResponseBody
+	@IdentityCheck
+	public Object collection(String anonymId,String storyId){
+		try {
+			Object result = JSONObject.fromObject(storyCollectionService.collection(storyId, anonymId));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * 评论故事
+	 * @param anonymId
+	 * @param styroReplyCommentId   回复的用户
+	 * @param storyId
+	 * @param commentContent
+	 * @return
+	 */
+	@RequestMapping(value="/storyComment",method=RequestMethod.POST)
+	@ResponseBody
+	@IdentityCheck
+	public Object storyComment(String anonymId,String storyReplyCommentId,String storyId,String commentContent){
+		try {
+			Object result = JSONObject.fromObject(storyCommentService.comment(anonymId, storyReplyCommentId, storyId, commentContent));
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
