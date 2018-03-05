@@ -172,6 +172,47 @@ public class StoryController {
 	}
 
 	/**
+	 * 查询评论
+	 * @param storyId
+	 * @param anonymId
+	 * @param offset
+	 * @param length
+	 * @return
+	 */
+	@RequestMapping(value="/searchComment/{offset}/{length}",method=RequestMethod.POST)
+	@ResponseBody
+	@IdentityCheck(check=false)
+	public Object searchComment(String storyId,String anonymId,@PathVariable int offset,@PathVariable int length){
+		try {
+			Object result = JSONObject.fromObject(storyCommentService.searchComment(storyId, anonymId, offset, length));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 故事评论点赞
+	 * @param storyCommentId
+	 * @param anonymId
+	 * @param password
+	 * @return
+	 */
+	@RequestMapping(value="/storyCommentFabulous/{storyCommentId}",method=RequestMethod.POST)
+	@ResponseBody
+	@IdentityCheck
+	public Object storyCommentFabulous(@PathVariable String storyCommentId,String anonymId,String password){
+		try {
+			Object result = JSONObject.fromObject(storyCommentService.storyCommentFabulous(storyCommentId, anonymId));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
 	 * 故事图片上传
 	 * @param file
 	 * @param request

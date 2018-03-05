@@ -3,6 +3,7 @@ package com.anonymous.interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,10 +12,18 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.anonymous.anonym.service.AnonymService;
 import com.anonymous.custom.annotation.IdentityCheck;
 
+/**
+ * 校验账号密码是否正确
+ * @author  lujiawei
+ * @version V1.0
+ * @date    2018年3月5日下午5:08:36
+ */
 public class IdentityCheckInterceptor extends HandlerInterceptorAdapter {
 	
 	@Autowired
 	private AnonymService anonymService;
+	
+	private static final Logger logger = Logger.getLogger(IdentityCheckInterceptor.class);
 
 	/**
 	 * 进行账号密码校验
@@ -36,6 +45,7 @@ public class IdentityCheckInterceptor extends HandlerInterceptorAdapter {
 				return true;
 			}else{
 				//校验不通过
+				logger.info("密码错误，校验不通过");
 				return false;
 			}
 		}

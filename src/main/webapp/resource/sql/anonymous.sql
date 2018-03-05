@@ -40,7 +40,7 @@ CREATE TABLE `an_anonym` (
 
 /*Data for the table `an_anonym` */
 
-insert  into `an_anonym`(`anonymId`,`nickName`,`userName`,`quickPassword`,`password`,`headerImg`,`phone`,`isLock`,`deviceId`,`lockReason`,`delFlag`,`createTime`,`updateTime`) values ('a9af89e8-3a26-4386-b379-ae15dde2e05f','张三','18320172397','AE47B1411818770C79AF4AF09E46CF3B',NULL,'','18320172397',0,'864664034884823',NULL,0,'2018-02-22 10:23:28',NULL);
+insert  into `an_anonym`(`anonymId`,`nickName`,`userName`,`quickPassword`,`password`,`headerImg`,`phone`,`isLock`,`deviceId`,`lockReason`,`delFlag`,`createTime`,`updateTime`) values ('a9af89e8-3a26-4386-b379-ae15dde2e05f','张三','18320172397','9F85BF6C4305BF89B716D73B59B787A6',NULL,'','18320172397',0,'864664034884823',NULL,0,'2018-02-22 10:23:28',NULL);
 
 /*Table structure for table `an_anonymreport` */
 
@@ -213,7 +213,7 @@ CREATE TABLE `an_storycollection` (
 
 /*Data for the table `an_storycollection` */
 
-insert  into `an_storycollection`(`storyCollectiionId`,`createTime`,`updateTime`,`anonymId`,`storyId`) values ('1','2018-03-01 14:46:19','2018-03-01 14:46:21','a9af89e8-3a26-4386-b379-ae15dde2e05f','6c17818e-0777-43d0-a8c5-b294052d1789');
+insert  into `an_storycollection`(`storyCollectiionId`,`createTime`,`updateTime`,`anonymId`,`storyId`) values ('1','2018-03-01 14:46:19','2018-03-01 14:46:21','a9af89e8-3a26-4386-b379-ae15dde2e05f','6c17818e-0777-43d0-a8c5-b294052d1789'),('98228cee-5454-4d70-bb7f-fd64452bfba2','2018-03-02 11:17:56','2018-03-02 11:17:56','a9af89e8-3a26-4386-b379-ae15dde2e05f','7007ee1b-2ace-4606-8898-944dacb8837d'),('c4953a6c-0808-40d5-b224-e46e35816c89','2018-03-02 11:20:42','2018-03-02 11:20:42','a9af89e8-3a26-4386-b379-ae15dde2e05f','57de42ea-109f-472b-98fb-52fdd8c45cc9'),('fe457879-0bd1-4abc-b703-fb05eba400a0','2018-03-02 11:18:42','2018-03-02 11:18:42','a9af89e8-3a26-4386-b379-ae15dde2e05f','5a327926-32ab-4a88-aecd-3574c3203575');
 
 /*Table structure for table `an_storycomment` */
 
@@ -221,7 +221,7 @@ DROP TABLE IF EXISTS `an_storycomment`;
 
 CREATE TABLE `an_storycomment` (
   `storyCommentId` varchar(100) CHARACTER SET utf8 NOT NULL COMMENT '主键',
-  `storyCommentContent` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '评论内容',
+  `storyCommentContent` varchar(255) NOT NULL,
   `styroReplyCommentId` varchar(100) CHARACTER SET utf8 DEFAULT NULL COMMENT '回复故事的id，不是回复的评论为null',
   `createTime` datetime DEFAULT NULL COMMENT '创建时间',
   `updateTime` datetime DEFAULT NULL COMMENT '更新时间',
@@ -237,19 +237,19 @@ CREATE TABLE `an_storycomment` (
 
 /*Data for the table `an_storycomment` */
 
-insert  into `an_storycomment`(`storyCommentId`,`storyCommentContent`,`styroReplyCommentId`,`createTime`,`updateTime`,`delFlag`,`storyId`,`anonymId`) values ('1','11','1','2018-03-01 12:32:24','2018-03-01 12:32:27',1,'6c17818e-0777-43d0-a8c5-b294052d1789','a9af89e8-3a26-4386-b379-ae15dde2e05f'),('2','22','22','2018-03-01 15:10:08','2018-03-01 15:10:10',1,'6c17818e-0777-43d0-a8c5-b294052d1789','a9af89e8-3a26-4386-b379-ae15dde2e05f');
+insert  into `an_storycomment`(`storyCommentId`,`storyCommentContent`,`styroReplyCommentId`,`createTime`,`updateTime`,`delFlag`,`storyId`,`anonymId`) values ('1','11','1','2018-03-01 12:32:24','2018-03-01 12:32:27',1,'6c17818e-0777-43d0-a8c5-b294052d1789','a9af89e8-3a26-4386-b379-ae15dde2e05f'),('1f575736-e4ec-4224-90bf-9ca61643b364','我怎么一个呗？',NULL,'2018-03-05 15:05:31','2018-03-05 15:05:31',1,'7007ee1b-2ace-4606-8898-944dacb8837d','a9af89e8-3a26-4386-b379-ae15dde2e05f'),('2','22','22','2018-03-01 15:10:08','2018-03-01 15:10:10',1,'6c17818e-0777-43d0-a8c5-b294052d1789','a9af89e8-3a26-4386-b379-ae15dde2e05f'),('2a10eb92-c5a1-467f-9ffc-7476646554bf','哈哈哈哈哈哈哈么么，步步错',NULL,'2018-03-05 14:29:17','2018-03-05 14:29:17',1,'7007ee1b-2ace-4606-8898-944dacb8837d','a9af89e8-3a26-4386-b379-ae15dde2e05f'),('37931721-1dd9-48d6-8920-6f67935f9031','我怎么啦！',NULL,'2017-02-01 15:00:03','2018-03-05 15:00:03',1,'7007ee1b-2ace-4606-8898-944dacb8837d','a9af89e8-3a26-4386-b379-ae15dde2e05f'),('6a46f5c5-708e-4c51-88ed-764df9cebe51','哈哈哈，我来啦',NULL,'2018-03-02 16:45:02','2018-03-02 16:45:02',1,'7007ee1b-2ace-4606-8898-944dacb8837d','a9af89e8-3a26-4386-b379-ae15dde2e05f'),('87e323b3-4af9-4e8f-83e6-fe678cf01122','我又来啦哈哈哈',NULL,'2018-03-05 14:41:18','2018-03-05 14:41:18',1,'6c17818e-0777-43d0-a8c5-b294052d1789','a9af89e8-3a26-4386-b379-ae15dde2e05f'),('9d56bc9d-bbfb-4fa4-883f-d068daa1345e','哈哈在这里???',NULL,'2018-03-02 16:57:16','2018-03-02 16:57:16',1,'5a327926-32ab-4a88-aecd-3574c3203575','a9af89e8-3a26-4386-b379-ae15dde2e05f'),('bef724e2-ac5d-427e-afdd-901a6625ef48','啊啦啦',NULL,'2018-03-02 16:47:41','2018-03-02 16:47:41',1,'5a327926-32ab-4a88-aecd-3574c3203575','a9af89e8-3a26-4386-b379-ae15dde2e05f');
 
 /*Table structure for table `an_storycommentfabulous` */
 
 DROP TABLE IF EXISTS `an_storycommentfabulous`;
 
 CREATE TABLE `an_storycommentfabulous` (
-  `StoryCommentFabulousId` varchar(100) CHARACTER SET utf8 NOT NULL COMMENT '主键',
+  `storyCommentFabulousId` varchar(100) CHARACTER SET utf8 NOT NULL COMMENT '主键',
   `createTime` datetime DEFAULT NULL COMMENT '创建时间',
   `updateTime` datetime DEFAULT NULL COMMENT '更新时间',
   `storyCommentId` varchar(100) CHARACTER SET utf8 DEFAULT NULL COMMENT '评论id',
   `anonymId` varchar(100) CHARACTER SET utf8 DEFAULT NULL COMMENT '用户id',
-  PRIMARY KEY (`StoryCommentFabulousId`),
+  PRIMARY KEY (`storyCommentFabulousId`),
   KEY `storycommentfabulous_anonymId` (`anonymId`),
   KEY `storycommentfabulous_storyCommentId` (`storyCommentId`),
   CONSTRAINT `storycommentfabulous_anonymId` FOREIGN KEY (`anonymId`) REFERENCES `an_anonym` (`anonymId`),
@@ -257,6 +257,8 @@ CREATE TABLE `an_storycommentfabulous` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `an_storycommentfabulous` */
+
+insert  into `an_storycommentfabulous`(`storyCommentFabulousId`,`createTime`,`updateTime`,`storyCommentId`,`anonymId`) values ('9a5a2501-a875-4bb0-8bb6-d16e9001d550','2018-03-05 17:16:49','2018-03-05 17:16:49','1f575736-e4ec-4224-90bf-9ca61643b364','a9af89e8-3a26-4386-b379-ae15dde2e05f');
 
 /*Table structure for table `an_storyfabulous` */
 
@@ -277,7 +279,7 @@ CREATE TABLE `an_storyfabulous` (
 
 /*Data for the table `an_storyfabulous` */
 
-insert  into `an_storyfabulous`(`storyFabulousId`,`createTime`,`updateTime`,`storyId`,`anonymId`) values ('1','2018-03-01 12:09:31','2018-03-01 12:09:34','6c17818e-0777-43d0-a8c5-b294052d1789','a9af89e8-3a26-4386-b379-ae15dde2e05f');
+insert  into `an_storyfabulous`(`storyFabulousId`,`createTime`,`updateTime`,`storyId`,`anonymId`) values ('1','2018-03-01 12:09:31','2018-03-01 12:09:34','6c17818e-0777-43d0-a8c5-b294052d1789','a9af89e8-3a26-4386-b379-ae15dde2e05f'),('9baa5ef9-5244-44f9-b040-92e12b0c25af','2018-03-02 09:51:16','2018-03-02 09:51:16','5a327926-32ab-4a88-aecd-3574c3203575','a9af89e8-3a26-4386-b379-ae15dde2e05f'),('ad667fb5-c718-42b7-a550-e322527c297d','2018-03-02 11:20:43','2018-03-02 11:20:43','57de42ea-109f-472b-98fb-52fdd8c45cc9','a9af89e8-3a26-4386-b379-ae15dde2e05f'),('ae6f44c2-9196-42d3-b44f-36d966c3dd1e','2018-03-02 09:47:44','2018-03-02 09:47:44','7007ee1b-2ace-4606-8898-944dacb8837d','a9af89e8-3a26-4386-b379-ae15dde2e05f');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
