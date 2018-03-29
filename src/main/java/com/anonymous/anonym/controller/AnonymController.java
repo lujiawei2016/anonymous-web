@@ -115,57 +115,73 @@ public class AnonymController {
 			HttpServletRequest request,HttpServletResponse response){
 		try {
 			
-			response.setCharacterEncoding("utf-8");
-	        request.setCharacterEncoding("utf-8");
-	        
-	        String picName = null;//最终名字
-	        
-	        String realPath = request.getSession().getServletContext().getRealPath(""+File.separator+"uploadImage");
-	        if(!(file.isEmpty())){
-	        	
-	        	String ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
-	        	if(!StringUtils.isBlank(ext) && ("jpg".equals(ext)) || "jpeg".equals(ext) || "png".equals(ext) || "bmp".equals(ext)){
-	        		//获取图片属性并保存
-	                picName = UUID.randomUUID().toString();
-	                
-	                File targetFile = new File(realPath,picName+"."+ext);
-	                file.transferTo(targetFile);
-	                
-	                if("png".equals(ext)){
-	                	Thumbnails.of(realPath+File.separator+picName+"."+ext).outputFormat("jpg").scale(1f).outputQuality(0.25f).toFile(realPath+File.separator+picName+"_fuben.jpg");
-	                }else{
-	                	Thumbnails.of(realPath+File.separator+picName+"."+ext).scale(1f).outputQuality(0.25f).toFile(realPath+File.separator+picName+"_fuben.jpg");
-	                }
-	                
-	                File fastdfsFile = new File(realPath,picName+"_fuben.jpg");
-	                
-	                FileInputStream inputStream = new FileInputStream(fastdfsFile);
-	                MultipartFile multipartFile = new MockMultipartFile(picName+"_fuben.jpg", inputStream);
-	                
-	                String imgPath = FileUtils.upload(multipartFile);
-	                
-	                System.out.println(imgPath);
-	    			
-	    			logger.info("文件上传成功");
-	    			
-	    			//保存头像
-	    			Object result = JSONObject.fromObject(anonymService.saveHeadImg(imgPath, anonymId));
-	    			return result;
-	                
-	        	}else{
-	        		Map<String, Object> resultMap = new HashMap<>();
-	        		resultMap.put("result", "00");
-	        		resultMap.put("msg", "图片格式错误");
-	        		Object result = JSONObject.fromObject(resultMap);
-	        		return result;
-	        	}
-                
-            }
+			String imgPath = uploadImg(request, response, file);
+			if(imgPath != null){
+				//保存头像
+				Object result = JSONObject.fromObject(anonymService.saveHeadImg(imgPath, anonymId));
+				
+				logger.info("头像上传成功");
+				
+				return result;
+			}
 			
 		} catch (Exception e) {
-			logger.error("发布卡片异常，异常信息为："+e.getMessage());
+			logger.error("保存头像异常："+e.getMessage());
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	/**
+	 * 图片上传
+	 * @param request
+	 * @param response
+	 * @param file
+	 * @return
+	 * @throws Exception
+	 */
+	public String uploadImg(HttpServletRequest request,HttpServletResponse response,MultipartFile file) throws Exception{
+		
+		String imgPath = "";
+		
+		response.setCharacterEncoding("utf-8");
+        request.setCharacterEncoding("utf-8");
+        
+        String picName = null;//最终名字
+        
+        String realPath = request.getSession().getServletContext().getRealPath(""+File.separator+"uploadImage");
+        if(!(file.isEmpty())){
+        	
+        	String ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
+        	if(!StringUtils.isBlank(ext) && ("jpg".equals(ext)) || "jpeg".equals(ext) || "png".equals(ext) || "bmp".equals(ext)){
+        		//获取图片属性并保存
+                picName = UUID.randomUUID().toString();
+                
+                File targetFile = new File(realPath,picName+"."+ext);
+                file.transferTo(targetFile);
+                
+                if("png".equals(ext)){
+                	Thumbnails.of(realPath+File.separator+picName+"."+ext).outputFormat("jpg").scale(1f).outputQuality(0.25f).toFile(realPath+File.separator+picName+"_fuben.jpg");
+                }else{
+                	Thumbnails.of(realPath+File.separator+picName+"."+ext).scale(1f).outputQuality(0.25f).toFile(realPath+File.separator+picName+"_fuben.jpg");
+                }
+                
+                File fastdfsFile = new File(realPath,picName+"_fuben.jpg");
+                
+                FileInputStream inputStream = new FileInputStream(fastdfsFile);
+                MultipartFile multipartFile = new MockMultipartFile(picName+"_fuben.jpg", inputStream);
+                
+                imgPath = FileUtils.upload(multipartFile);
+                
+    			logger.info("文件上传成功");
+                
+        	}else{
+        		Map<String, Object> resultMap = new HashMap<>();
+        		resultMap.put("result", "00");
+        		resultMap.put("msg", "图片格式错误");
+        		return null;
+        	}
+        }
+        return imgPath;
 	}
 }
