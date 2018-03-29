@@ -62,6 +62,45 @@ public class AnonymController {
 	}
 	
 	/**
+	 * 获取个人信息
+	 * @param anonymId
+	 * @return
+	 */
+	@RequestMapping(value="/getMeInfo",method=RequestMethod.POST)
+	@ResponseBody
+	@IdentityCheck
+	public Object getMeInfo(String anonymId){
+		try {
+			Object result = JSONObject.fromObject(anonymService.getAnonymInfoById(anonymId));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 更新用户
+	 * @param anonymId
+	 * @param nickName
+	 * @param personalSignature
+	 * @param sex
+	 * @return
+	 */
+	@RequestMapping(value="/updateMe",method=RequestMethod.POST)
+	@ResponseBody
+	@IdentityCheck
+	public Object updateMe(String anonymId,String nickName,String personalSignature,String sex){
+		try {
+			Object result = JSONObject.fromObject(anonymService.updateMe(anonymId, nickName, personalSignature, sex));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
 	 * 上传头像并保存
 	 * @param file
 	 * @param anonymId
@@ -69,10 +108,10 @@ public class AnonymController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value="/uploadHeadImg",method=RequestMethod.POST)
+	@RequestMapping(value="/saveHeadImg",method=RequestMethod.POST)
 	@ResponseBody
 	@IdentityCheck
-	public Object uploadHeadImg(@RequestParam MultipartFile file,String anonymId,
+	public Object saveHeadImg(@RequestParam MultipartFile file,String anonymId,
 			HttpServletRequest request,HttpServletResponse response){
 		try {
 			
@@ -108,8 +147,11 @@ public class AnonymController {
 	                System.out.println(imgPath);
 	    			
 	    			logger.info("文件上传成功");
+	    			
+	    			//保存头像
+	    			Object result = JSONObject.fromObject(anonymService.saveHeadImg(imgPath, anonymId));
+	    			return result;
 	                
-	    			return "{\"name\":\"abc\"}";
 	        	}else{
 	        		Map<String, Object> resultMap = new HashMap<>();
 	        		resultMap.put("result", "00");
