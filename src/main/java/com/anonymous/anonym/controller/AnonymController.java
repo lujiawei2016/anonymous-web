@@ -133,6 +133,38 @@ public class AnonymController {
 	}
 	
 	/**
+	 * 上传个人背景并保存
+	 * @param file
+	 * @param anonymId
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value="/saveBackgroundImg",method=RequestMethod.POST)
+	@ResponseBody
+	@IdentityCheck
+	public Object saveBackgroundImg(@RequestParam MultipartFile file,String anonymId,
+			HttpServletRequest request,HttpServletResponse response){
+		try {
+			
+			String headerImg = uploadImg(request, response, file);
+			if(headerImg != null){
+				//保存头像
+				Object result = JSONObject.fromObject(anonymService.saveBackgroundImg(headerImg, anonymId));
+				
+				logger.info("背景图片上传成功");
+				
+				return result;
+			}
+			
+		} catch (Exception e) {
+			logger.error("保存头像异常："+e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
 	 * 图片上传
 	 * @param request
 	 * @param response
