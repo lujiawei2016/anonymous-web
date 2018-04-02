@@ -183,6 +183,26 @@ public class CardController {
 	}
 	
 	/**
+	 * 查出主页卡片
+	 * @param anonymId
+	 * @param offset
+	 * @param length
+	 * @return
+	 */
+	@RequestMapping(value="/mainCard/{offset}/{length}")
+	@ResponseBody
+	@IdentityCheck(check=false)
+	public Object mainCard(String anonymId,@PathVariable String offset,@PathVariable String length){
+		try {
+			Object result = JSONObject.fromObject(cardService.pagingSearchCard(anonymId, offset, length));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
 	 * 评论点赞
 	 * @param anonymId
 	 * @param cardCommentId
