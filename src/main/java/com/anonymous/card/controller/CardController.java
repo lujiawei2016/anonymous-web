@@ -164,25 +164,6 @@ public class CardController {
 	}
 	
 	/**
-	 * 查出主页最新卡片信息
-	 * @param anonymId
-	 * @return
-	 */
-	@RequestMapping(value="/searchNewCard/anonymId/{anonymId}",method=RequestMethod.POST)
-	@ResponseBody
-	@IdentityCheck(check=false)
-	public Object searchNewCard(@PathVariable String anonymId){
-		try {
-			Object result = JSONObject.fromObject(cardService.searchNewCard(anonymId));
-			return result;
-		} catch (Exception e) {
-			logger.error("查出主页最新卡片信息异常");
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	/**
 	 * 查出主页卡片
 	 * @param anonymId
 	 * @param offset

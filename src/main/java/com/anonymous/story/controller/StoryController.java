@@ -71,6 +71,26 @@ public class StoryController {
 		}
 		return null;
 	}
+	
+	/**
+	 * 分页查询故事
+	 * @param anonymId
+	 * @param offset
+	 * @param length
+	 * @return
+	 */
+	@RequestMapping(value="/pagingSearchStory/{offset}/{length}",method=RequestMethod.POST)
+	@ResponseBody
+	@IdentityCheck(check=false)
+	public Object pagingSearchStory(String anonymId,@PathVariable String offset,@PathVariable String length){
+		try {
+			Object result = JSONObject.fromObject(storyService.pagingSearchStory(anonymId, offset, length));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	/**
 	 * 发布故事
