@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Path;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.anonymous.anonym.service.AnonymService;
+import com.anonymous.card.service.CardService;
 import com.anonymous.custom.annotation.IdentityCheck;
+import com.anonymous.story.service.StoryService;
 import com.anonymous.utils.FileUtils;
 
 import net.coobird.thumbnailator.Thumbnails;
@@ -42,6 +45,12 @@ public class AnonymController {
 	
 	@Autowired
 	private AnonymService anonymService;
+	
+	@Autowired
+	private CardService cardService;
+	
+	@Autowired
+	private StoryService storyService;
 
 	/**
 	 * 获取用户信息
@@ -72,6 +81,48 @@ public class AnonymController {
 	public Object getMeInfo(String anonymId){
 		try {
 			Object result = JSONObject.fromObject(anonymService.getAnonymInfoById(anonymId));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 获取个人卡片信息
+	 * @param anonymId
+	 * @param password
+	 * @param offset
+	 * @param length
+	 * @return
+	 */
+	@RequestMapping(value="/getMeCard/{offset}/{length}",method=RequestMethod.POST)
+	@ResponseBody
+	@IdentityCheck
+	public Object getMeCard(String anonymId,String password,@PathVariable String offset,@PathVariable String length){
+		try {
+			Object result = JSONObject.fromObject(cardService.pagingSearchCard(anonymId, offset, length));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 获取个人故事
+	 * @param anonymId
+	 * @param password
+	 * @param offset
+	 * @param length
+	 * @return
+	 */
+	@RequestMapping(value="/getMeStory/{offset}/{length}",method=RequestMethod.POST)
+	@ResponseBody
+	@IdentityCheck
+	public Object getMeStory(String anonymId,String password,@PathVariable String offset,@PathVariable String length){
+		try {
+			Object result = JSONObject.fromObject(storyService.pagingSearchStory(anonymId, offset, length));
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
