@@ -131,6 +131,26 @@ public class AnonymController {
 	}
 	
 	/**
+	 * 获取个人卡片信息
+	 * @param anonymId
+	 * @param offset
+	 * @param length
+	 * @return
+	 */
+	@RequestMapping(value="/getAnonymCard/{offset}/{length}",method=RequestMethod.POST)
+	@ResponseBody
+	@IdentityCheck(check=false)
+	public Object getAnonymCard(String anonymId,@PathVariable String offset,@PathVariable String length){
+		try {
+			Object result = JSONObject.fromObject(cardService.pagingSearchCard(anonymId, offset, length));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
 	 * 更新用户
 	 * @param anonymId
 	 * @param nickName
